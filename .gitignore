@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+.env
+*.db
+*.sqlite
+coverage/
+.nyc_output/
+client/node_modules/
+client/dist/

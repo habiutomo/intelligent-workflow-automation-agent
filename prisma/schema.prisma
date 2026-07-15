@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Workflow {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  status      String   @default("draft") // draft, active, paused, archived
+  triggerType String   @default("manual") // manual, schedule, webhook, event
+  triggerConfig String? // JSON config for trigger
+  nodes       String   @default("[]") // JSON array of workflow nodes
+  edges       String   @default("[]") // JSON array of workflow edges
+  variables   String   @default("{}") // JSON object of workflow variables
+  version     Int      @default(1)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  runs        WorkflowRun[]
+  schedules   Schedule[]
+}
+
+model WorkflowRun {
+  id         String   @id @default(cuid())
+  workflowId String
+  workflow   Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  status     String   @default("pending") // pending, running, completed, failed, cancelled
+  input      String   @default("{}") // JSON input data
+  output     String?  // JSON output data
+  error      String?  // Error message if failed
+  nodeStates String   @default("{}") // JSON state of each node execution
+  startedAt  DateTime @default(now())
+  completedAt DateTime?
+  duration   Int?     // Duration in ms
+}
+
+model Schedule {
+  id         String   @id @default(cuid())
+  workflowId String
+  workflow   Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  cron       String   // Cron expression
+  timezone   String   @default("UTC")
+  enabled    Boolean  @default(true)
+  lastRun    DateTime?
+  nextRun    DateTime?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  action     String
+  resource   String
+  resourceId String?
+  details    String?  // JSON details
+  userId     String?
+  ip         String?
+  createdAt  DateTime @default(now())
+}
