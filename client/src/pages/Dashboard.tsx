@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 interface Stats {
   totalWorkflows: number;
@@ -95,12 +96,12 @@ export default function Dashboard() {
             <span className="card-title">Quick Actions</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: "8px 0" }}>
-            <a href="/workflows" className="nav-item" style={{ background: "var(--bg-tertiary)" }}>
+            <Link to="/workflows" className="nav-item" style={{ background: "var(--bg-tertiary)" }}>
               <span>\u25B6</span> View Workflows
-            </a>
-            <a href="/runs" className="nav-item" style={{ background: "var(--bg-tertiary)" }}>
+            </Link>
+            <Link to="/runs" className="nav-item" style={{ background: "var(--bg-tertiary)" }}>
               <span>\u21BB</span> View Runs
-            </a>
+            </Link>
           </div>
         </div>
       </div>

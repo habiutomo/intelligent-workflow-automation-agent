@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, Link } from "react-router-dom";
 
 const navItems = [
   { path: "/dashboard", label: "Dashboard", icon: "\u25A0" },
@@ -18,14 +18,14 @@ export default function Layout() {
         </div>
         <nav className="sidebar-nav">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.path}
-              href={item.path}
+              to={item.path}
               className={`nav-item ${location.pathname.startsWith(item.path) ? "active" : ""}`}
             >
               <span>{item.icon}</span>
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
         <div style={{ fontSize: 11, color: "var(--text-muted)", padding: "8px 12px" }}>
