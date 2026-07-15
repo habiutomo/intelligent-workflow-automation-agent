@@ -23,7 +23,7 @@ export default function Dashboard() {
     Promise.all([
       fetch("/api/health").then((r) => r.json()),
       fetch("/api/events?limit=20").then((r) => r.json()),
-    ]).then(([healthRes, eventsRes]) => {
+    ]).then(([_healthRes, eventsRes]) => {
       setStats({
         totalWorkflows: 3,
         totalRuns: 0,
